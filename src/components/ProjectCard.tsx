@@ -52,6 +52,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             }}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-1000"
             src={videoUrl}
+            aria-label={videoUrlAlt}
             muted
             loop
             playsInline

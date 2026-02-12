@@ -1,10 +1,10 @@
 import React from "react";
 
 export const Footer: React.FC = () => {
-  const footerLinks = [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Cookies", href: "#" },
-  ];
+  // const footerLinks = [
+  //   { label: "Privacy Policy", href: "#" },
+  //   { label: "Cookies", href: "#" },
+  // ];
 
   return (
     <footer className="py-12 px-6 border-t border-[var(--primary)]/10">
