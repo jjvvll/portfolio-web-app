@@ -24,14 +24,15 @@ export const projectsData: Project[] = [
     techStack: [
       "React",
       "TypeScript",
-      "Laravel",
+      "Laravel REST API",
       "Axios",
       "Tailwind CSS",
       "MySQL",
+      "Local LLM (Hosted via Ollama)",
     ],
     role: "Developer",
     outcome:
-      "Developed a personal workout tracking web app with user authentication and isolated instances per user. Features include creating and managing workout sets (upper/lower body), adding exercises with editable sets, reps, and weights, a rest timer, and the ability to pause workouts. Currently in development: saving user progress for historical tracking.",
+      "Built a full-stack workout tracking application using Laravel and React with user authentication and isolated data per user. Implemented dynamic exercise management, rest timer functionality, and an AI-powered workout generator using a locally hosted model. Currently expanding the system to support historical progress tracking.",
     reversed: true,
   },
   {

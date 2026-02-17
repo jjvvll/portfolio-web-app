@@ -18,7 +18,7 @@ export const HeroSection: React.FC = () => {
             </p>
 
             {/* Download CV Button */}
-            <div className="mt-8 md:mt-10">
+            <div className="mt-8 md:mt-10 flex flex-wrap gap-3">
               <a
                 href="/files/CV.pdf"
                 download
@@ -29,8 +29,19 @@ export const HeroSection: React.FC = () => {
                 </span>
                 <span>Download CV</span>
               </a>
-            </div>
 
+              <a
+                href="/files/CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 border-2 border-[var(--primary)] text-[var(--primary)] rounded-lg hover:bg-[var(--primary)]/10 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl font-semibold text-sm sm:text-base"
+              >
+                <span className="material-icons text-xl sm:text-2xl">
+                  visibility
+                </span>
+                <span>View CV</span>
+              </a>
+            </div>
             <div className="mt-8 md:mt-12 flex items-center space-x-4 sm:space-x-6">
               <div className="h-[1px] w-12 sm:w-20 bg-[var(--primary)]"></div>
               <span className="text-xs sm:text-sm uppercase tracking-widest font-bold">

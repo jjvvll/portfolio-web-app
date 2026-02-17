@@ -17,12 +17,33 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [videoProgress, setVideoProgress] = useState(0);
 
   useEffect(() => {
     const onChange = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", onChange);
     return () => document.removeEventListener("fullscreenchange", onChange);
   }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const handleTimeUpdate = () => {
+      setVideoProgress((video.currentTime / video.duration) * 100);
+    };
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    return () => video.removeEventListener("timeupdate", handleTimeUpdate);
+  }, []);
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    const bar = e.currentTarget;
+    const rect = bar.getBoundingClientRect();
+    const ratio = (e.clientX - rect.left) / rect.width;
+    if (videoRef.current) {
+      videoRef.current.currentTime = ratio * videoRef.current.duration;
+    }
+  };
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -50,7 +71,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             ref={(el) => {
               if (el) videoRef.current = el;
             }}
-            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-1000"
+            className="object-cover w-full h-full"
             src={videoUrl}
             aria-label={videoUrlAlt}
             muted
@@ -71,34 +92,55 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             </div>
           </div>
 
-          {/* Category label */}
+          {/* Bottom controls — progress bar + label + fullscreen */}
           <div
-            className={`absolute bottom-6 ${
-              reversed ? "right-6 text-right" : "left-6"
-            } pointer-events-none`}
-          >
-            <span className="text-xs font-bold uppercase tracking-widest text-white bg-black/60 px-2 py-1 rounded-sm inline-block">
-              {number} // {category}
-            </span>
-          </div>
-
-          {/* Fullscreen button */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation(); // don't trigger play/pause
-              if (!document.fullscreenElement) {
-                videoRef.current?.requestFullscreen();
-              } else {
-                document.exitFullscreen();
-              }
+            className="absolute bottom-0 left-0 right-0 px-3 pb-3 pt-6 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.6), transparent)",
             }}
-            className="absolute bottom-4 right-4 w-9 h-9 bg-black/50 hover:bg-black/75 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 z-10"
-            aria-label="Toggle fullscreen"
           >
-            <span className="material-icons text-lg">
-              {isFullscreen ? "fullscreen_exit" : "fullscreen"}
-            </span>
-          </button>
+            {/* Progress bar */}
+            <div
+              className="w-full h-1.5 bg-white/30 rounded-full cursor-pointer mb-3 pointer-events-auto"
+              onClick={handleSeek}
+            >
+              <div
+                className="h-full bg-white rounded-full relative"
+                style={{ width: `${videoProgress}%` }}
+              >
+                {/* Scrubber handle */}
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+            </div>
+
+            {/* Label + fullscreen row */}
+            <div className="flex items-center justify-between pointer-events-none">
+              <div className={`${reversed ? "ml-auto" : ""}`}>
+                <span className="text-xs font-bold uppercase tracking-widest text-white bg-black/60 px-2 py-1 rounded-sm inline-block">
+                  {number} // {category}
+                </span>
+              </div>
+
+              {/* Fullscreen button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (!document.fullscreenElement) {
+                    videoRef.current?.requestFullscreen();
+                  } else {
+                    document.exitFullscreen();
+                  }
+                }}
+                className="w-9 h-9 bg-black/50 hover:bg-black/75 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 pointer-events-auto"
+                aria-label="Toggle fullscreen"
+              >
+                <span className="material-icons text-lg">
+                  {isFullscreen ? "fullscreen_exit" : "fullscreen"}
+                </span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
