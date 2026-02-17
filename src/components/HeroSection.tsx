@@ -17,7 +17,7 @@ export const HeroSection: React.FC = () => {
               implementation, usability, and performance.
             </p>
 
-            {/* Download CV Button */}
+            {/* Download and View CV Button */}
             <div className="mt-8 md:mt-10 flex flex-wrap gap-3">
               <a
                 href="/files/CV.pdf"
